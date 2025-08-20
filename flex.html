@@ -60,12 +60,17 @@
 
       .navigation ul {
         list-style: none;
-        padding: 2;
-        margin: 2;
+        padding: 0;
+        margin: 0;
       }
 
       .navigation li {
         margin-bottom: 5px;
+        display: flex;
+        flex-direction: column; /* Susun artikel secara vertikal */
+        gap: 10px;
+        flex-grow: 1; /* Membuat area artikel mengisi ruang yang tersedia */
+        background-color: #ffffff;
       }
     </style>
   </head>

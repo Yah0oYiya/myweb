@@ -4,10 +4,6 @@
   grid-template-columns: repeat(3, 150px);
   grid-template-rows: repeat(3, 150px) ;
 
-  grid-template-areas: "Header Header"
-                       "Content Sidebar"
-                       "Footer Footer";
-
   grid-row-gap: 50px;
   grid-column-gap: 50px;
 }

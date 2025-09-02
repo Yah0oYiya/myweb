@@ -1,11 +1,41 @@
-.container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 100px 200px;
-  gap: 10px;
+/* Styling dasar untuk body dan container */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
 }
 
-.item {
-  background-color: lightblue;
-  border: 1px solid blue;
+.grid-container {
+    display: grid;
+    /* Membuat 2 kolom dengan lebar yang sama */
+    grid-template-columns: 1fr 1fr;
+    /* Mengatur jarak antar baris dan kolom */
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+.grid-item {
+    background-color: #007bff;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Efek hover untuk interaksi */
+.grid-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }

@@ -6,7 +6,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #03011a;
+    background-color: #ffffff;
 }
 
 .container {
@@ -26,7 +26,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #72bdbd;
+    background-color: #628b8b;
     color: white;
     font-size: 1.5rem;
     border-radius: 8px;
@@ -34,17 +34,17 @@ body {
 }
 
 #header {
-    background-color: #faad71;
+    background-color: #E4731F;
     grid-area: header;
 }
 
 #content {
-    background-color: #95f79d;;
+    background-color: #E81641;;
     grid-area: content;
 }
 
 #sidebar {
-    background-color: #ec7996;;
+    background-color: #d6e4b4;;
     grid-area: sidebar;
 }
 

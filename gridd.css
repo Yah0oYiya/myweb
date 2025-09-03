@@ -21,7 +21,6 @@ body {
     grid-template-areas: "header header"
                          "content content"
                          "footer footer"
-
 }
 
 #header {
@@ -45,7 +44,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: tomato;
+    background-color: rgb(197, 113, 183);
     color: white;
     font-size: 1.5rem;
     border-radius: 8px;

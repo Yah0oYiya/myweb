@@ -24,6 +24,11 @@
   grid-area: 4 / 1 / 5 / 4;
 }
 
+#box5 {
+  grid-area: 3 / 5 / 1 / 3;
+}
+
+
 .item {
   background-color: lightblue;
   border: 1px solid blue;

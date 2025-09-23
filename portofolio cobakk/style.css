@@ -18,8 +18,8 @@ body{
     width: 100%;
     height: 100vh;
     overflow-x: hidden;
-    background-color: black;
-    color: white;
+    background-color: rgb(37, 128, 247);
+    color: rgb(161, 225, 255);
 }
 
 header{
@@ -39,7 +39,7 @@ header{
 
 .logo{
     font-size: 3rem;
-    color: #b74b4b;
+    color: #91d0fa;
     font-weight: 800;
     cursor: pointer;
     transition: 0.5s ease;
@@ -75,7 +75,7 @@ nav a.active{
         border-bottom: 3px solid #b74b4b;
         border-bottom-left-radius: 2rem;
         padding: 1rem solid;
-        background-color: #161616;
+        background-color: #000000;
         border-top: 0.1rem solid rgba(0,0,0,0.1);
     }
 
@@ -107,7 +107,7 @@ section{
     justify-content: center;
     align-items: center;
     gap: 8rem;
-    background-color: black;
+    background-color: rgb(37, 128, 247);
 }
 
 .home .home-content h1{
@@ -117,7 +117,7 @@ section{
 }
 
 span{
-    color: #b74b4b;
+    color: #de98f3;
 }
 
 .home-content h3{
@@ -138,7 +138,7 @@ span{
     position: relative;
     width: 32vw;
     border-radius: 50%;
-    box-shadow: 0 0 25px solid #b74b4b;
+    box-shadow: 0 0 25px solid #4b8fb7;
     cursor: pointer;
     transition: 0.2s linear;
 }
@@ -155,40 +155,40 @@ span{
     width: 4rem;
     height: 4rem;
     background-color: transparent;
-    border: 0.2rem solid #b74b4b;
+    border: 0.2rem solid #6ae1ff;
     font-size: 2rem;
     border-radius: 50%;
     margin: 3rem 1.5rem 3rem 0;
     transition: 0.3s ease;
-    color: #b74b4b;
+    color: #ca61c1;
 }
 
 .social-icons a:hover{
-    color: black;
+    color: rgb(21, 76, 138);
     transform: scale(1.3) translateY(-5px);
     background-color: #b74b4b;
-    box-shadow: 0  0 25px #b74b4b;
+    box-shadow: 0  0 25px #c95959;
 }
 
 .btn{
     display: inline-block;
     padding: 1rem 2.8rem;
-    background-color: black;
+    background-color: rgb(209, 121, 205);
     border-radius: 4rem;
     font-size: 1.6rem;
-    color: #b74b4b;
+    color: #7dceee;
     letter-spacing: 0.3rem;
     font-weight: 600;
-    border: 2px solid #b74b4b;
+    border: 2px solid #e98be9;
     transition: 0.3s ease;
     cursor: pointer;
 }
 
 .btn:hover{
     transform: scale3d(1.03);
-    background-color: #b74b4b;
-    color: black;
-    box-shadow: 0 0 25px #b74b4b;
+    background-color: #b14a4a;
+    color: rgb(37, 128, 247);
+    box-shadow: 0 0 25px #b95a5a;
 }
 
 .typing-text{
@@ -203,42 +203,42 @@ span{
 
 .typing-text span::before{
     content: "software Developer";
-    color: #b74b4b;
+    color: #d374cb;
     animation: words 20s infinite;
 }
 
 .typing-text span::after{
     content: "";
-    background-color: black;
+    background-color: rgb(37, 128, 247);
     position: absolute;
     width: calc(100% + 8px);
     height: 100%;
-    border-left: 3px solid black;
+    border-left: 3px solid rgb(109, 237, 247);
     right: -8;
     animation: cursor 0.6s infinite;
 }
 
 @keyframes cursor{
     to{
-        border-left: 3px solid #b74b4b;
+        border-left: 3px solid #dd68ca;
     }
 }
 
 @keyframes words{
     0%, 20%{
-        content: "Web Developer";
+        content: "Dancer";
     }
     21%, 40%{
-        content: "Developer";
+        content: "Vocalist";
     }
     41%, 60%{
-        content: "Web Designer";
+        content: "Writer";
     }
     61%, 80%{
-        content: "Youtuber";
+        content: "Scientist";
     }
     81%, 100%{
-        content: "Script Writer";
+        content: "Kpoper";
     }
 }
 

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksi Foto Carmen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+        
+        .heart-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 50%; /* Initial circular shape */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .heart-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .heart-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 105, 180, 0.4); /* Pink overlay */
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            transition: clip-path 0.3s ease-in-out;
+        }
+
+        .heart-frame:hover {
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+            transform: scale(1.05);
+        }
+        
+        /* Apply heart shape on hover */
+        .heart-frame:hover::before {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .heart-shape {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal text-gray-800">
+
+    <div class="flex flex-col min-h-screen bg-pink-50">
+        <!-- Header -->
+        <header class="bg-white shadow-lg py-6 mb-8 rounded-b-3xl">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-5xl font-extrabold text-pink-500 font-['Pacifico'] animate-pulse">
+                    Koleksi Foto Carmen
+                </h1>
+                <p class="mt-2 text-xl text-gray-600">
+                    Bingkai Cinta untuk Foto Pilihan
+                </p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <div id="photo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Photo frames will be injected here by JavaScript -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-pink-300 py-4 mt-8 rounded-t-3xl text-center">
+            <p class="text-pink-900">&copy; 2023 Dibuat dengan ❤️</p>
+        </footer>
+    </div>
+
+    <script>
+        const images = [
+            "https://i.pinimg.com/736x/ad/89/3a/ad893afae31b10bf5fdeee69e05f78c4.jpg",
+            "https://i.pinimg.com/736x/8c/55/2d/8c552d6bdaa83ad0098fe31e6ca7c5cf.jpg",
+            "https://i.pinimg.com/736x/df/92/e6/df92e65660e15a655783980500d50922.jpg",
+            "https://i.pinimg.com/736x/59/16/49/5916496e55e29d6793f610a4e8b4f657.jpg",
+            "https://i.pinimg.com/736x/6f/55/06/6f5506ca7da3420bfdefbc3fa2608489.jpg"
+        ];
+
+        const photoGrid = document.getElementById('photo-grid');
+
+        images.forEach((url, index) => {
+            const card = document.createElement('div');
+            card.className = 'relative bg-white rounded-3xl overflow-hidden shadow-xl transform transition-transform duration-300 hover:scale-105';
+
+            const frameContainer = document.createElement('div');
+            frameContainer.className = 'heart-frame w-full h-80 lg:h-96 relative';
+
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = `Foto Carmen ${index + 1}`;
+            img.className = 'rounded-3xl';
+            img.onerror = () => img.src = `https://placehold.co/736x1104/fbcfe8/be185d?text=Gambar+Rusak`;
+
+            frameContainer.appendChild(img);
+            
+            // Re-apply the heart-shape class to the image itself
+            img.classList.add('heart-shape');
+
+            const caption = document.createElement('div');
+            caption.className = 'p-6 text-center';
+            const captionText = document.createElement('p');
+            captionText.className = 'text-lg font-semibold text-pink-600 mt-2';
+            captionText.textContent = `Foto Carmen ${index + 1}`;
+            caption.appendChild(captionText);
+
+            card.appendChild(frameContainer);
+            card.appendChild(caption);
+            photoGrid.appendChild(card);
+        });
+
+        // Add an event listener to dynamically apply the clip-path
+        document.querySelectorAll('.heart-frame').forEach(frame => {
+            frame.addEventListener('mouseover', () => {
+                frame.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+            });
+            frame.addEventListener('mouseout', () => {
+                frame.style.clipPath = 'none';
+            });
+        });
+    </script>
+
+</body>
+</html>

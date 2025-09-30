@@ -87,15 +87,7 @@
             "https://i.pinimg.com/736x/ad/89/3a/ad893afae31b10bf5fdeee69e05f78c4.jpg",
             "https://i.pinimg.com/736x/8c/55/2d/8c552d6bdaa83ad0098fe31e6ca7c5cf.jpg",
             "https://i.pinimg.com/736x/df/92/e6/df92e65660e15a655783980500d50922.jpg",
-            "https://i.pinimg.com/736x/59/16/49/5916496e55e29d6793f610a4e8b4f657.jpg",
-            "https://i.pinimg.com/736x/6f/55/06/6f5506ca7da3420bfdefbc3fa2608489.jpg"
-        ];
-        const photolinks = [
-            "https://i.pinimg.com/736x/ad/89/3a/ad893afae31b10bf5fdeee69e05f78c4.jpg",
-            "https://i.pinimg.com/736x/8c/55/2d/8c552d6bdaa83ad0098fe31e6ca7c5cf.jpg",
-            "https://i.pinimg.com/736x/df/92/e6/df92e65660e15a655783980500d50922.jpg",
-            "https://i.pinimg.com/736x/59/16/49/5916496e55e29d6793f610a4e8b4f657.jpg",
-            "https://i.pinimg.com/736x/6f/55/06/6f5506ca7da3420bfdefbc3fa2608489.jpg"
+            "https://i.pinimg.com/736x/59/16/49/5916496e55e29d6793f610a4e8b4f657.jpg"
         ];
 
         const photoGrid = document.getElementById('photo-grid');
@@ -133,7 +125,7 @@
         // Add an event listener to dynamically apply the clip-path
         document.querySelectorAll('.heart-frame').forEach(frame => {
             frame.addEventListener('mouseover', () => {
-                frame.style.clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+                frame.style.clipPath = 'circle';
             });
             frame.addEventListener('mouseout', () => {
                 frame.style.clipPath = 'none';

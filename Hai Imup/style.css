@@ -214,32 +214,32 @@ span{
     position: absolute;
     width: calc(100% + 8px);
     height: 100%;
-    border-left: 3px solid rgb(109, 237, 247);
+    border-left: 3px solid rgb(241, 241, 241);
     right: -8;
     animation: cursor 0.6s infinite;
 }
 
 @keyframes cursor{
     to{
-        border-left: 3px solid #dd68ca;
+        border-left: 3px solid #000000;
     }
 }
 
 @keyframes words{
     0%, 20%{
-        content: "Dancer";
+        content: "Tengil";
     }
     21%, 40%{
-        content: "Vocalist";
+        content: "Anak Math Abiez";
     }
     41%, 60%{
-        content: "Writer";
+        content: "Kiyowok";
     }
     61%, 80%{
-        content: "Scientist";
+        content: "Pemula Orang Sibuk";
     }
     81%, 100%{
-        content: "Kpoper";
+        content: "Ansor";
     }
 }
 

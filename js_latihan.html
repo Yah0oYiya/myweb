@@ -3,7 +3,7 @@
 <head>
     <title>Lampu Lalu Lintas Otomatis</title>
     <style>
-        body { text-align: center; font-family: sans-serif; background-color: #f4f4f4; }
+        body { text-align: center; font-family: sans-serif; background-color: #b7ff87; }
         .box {
             background-color: #222;
             width: 100px;
@@ -49,7 +49,7 @@
                 yellow.style.backgroundColor = "#444";
                 green.style.backgroundColor = "#444";
                 status.innerText = "MANDHEG! (Merah)";
-                setTimeout(toGreen, 3000); // Tunggu 3 detik ke hijau
+                setTimeout(toGreen, 8000); // Tunggu 8 detik ke hijau
             }
 
             function toGreen() {
@@ -57,7 +57,7 @@
                 yellow.style.backgroundColor = "#444";
                 green.style.backgroundColor = "lime";
                 status.innerText = "MLAKU! (Hijau)";
-                setTimeout(toYellow, 3000); // Tunggu 3 detik ke kuning
+                setTimeout(toYellow, 10000); // Tunggu 10 detik ke kuning
             }
 
             function toYellow() {
@@ -65,7 +65,7 @@
                 yellow.style.backgroundColor = "yellow";
                 green.style.backgroundColor = "#444";
                 status.innerText = "SIAP-SIAP! (Kuning)";
-                setTimeout(toRed, 1000); // Tunggu 1 detik balik ke merah
+                setTimeout(toRed, 5000); // Tunggu 5 detik balik ke merah
             }
 
             toRed(); // Jalankan urutan pertama

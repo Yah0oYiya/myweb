@@ -1,18 +1,76 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Lampu Lalu Lintas Otomatis</title>
+    <style>
+        body { text-align: center; font-family: sans-serif; background-color: #f4f4f4; }
+        .box {
+            background-color: #222;
+            width: 100px;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        .light {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #444; /* Warna mati */
+        }
+        #status { font-weight: bold; font-size: 1.2em; }
+    </style>
+</head>
 <body>
 
-<h2>Iki lampu?</h2>
+    <h2>Simulasi Lampu Otomatis</h2>
+    <p id="status">Lampu mati</p>
 
-<p>Sugeng rawuh, jagakno omahku. Kudu reti hemat listrik.</p>
+    <div class="box">
+        <div id="red" class="light"></div>
+        <div id="yellow" class="light"></div>
+        <div id="green" class="light"></div>
+    </div>
 
-<p>Bayangno, iki lampu teras omahmu.</p>
+    <button onclick="startTrafficLight()">Mulai Simulasi</button>
 
-<button onclick="document.getElementById('myImage').src='pic_bulbon.gif'">Hei, surup iki, nyalakno</button>
+    <script>
+        function startTrafficLight() {
+            const red = document.getElementById('red');
+            const yellow = document.getElementById('yellow');
+            const green = document.getElementById('green');
+            const status = document.getElementById('status');
 
-<img id="myImage" src="pic_bulboff.gif" style="width:80px">
+            function toRed() {
+                red.style.backgroundColor = "red";
+                yellow.style.backgroundColor = "#444";
+                green.style.backgroundColor = "#444";
+                status.innerText = "MANDHEG! (Merah)";
+                setTimeout(toGreen, 3000); // Tunggu 3 detik ke hijau
+            }
 
-<button onclick="document.getElementById('myImage').src='pic_bulboff.gif'">Wes awan, pateni lampune</button>
+            function toGreen() {
+                red.style.backgroundColor = "#444";
+                yellow.style.backgroundColor = "#444";
+                green.style.backgroundColor = "lime";
+                status.innerText = "MLAKU! (Hijau)";
+                setTimeout(toYellow, 3000); // Tunggu 3 detik ke kuning
+            }
+
+            function toYellow() {
+                red.style.backgroundColor = "#444";
+                yellow.style.backgroundColor = "yellow";
+                green.style.backgroundColor = "#444";
+                status.innerText = "SIAP-SIAP! (Kuning)";
+                setTimeout(toRed, 1000); // Tunggu 1 detik balik ke merah
+            }
+
+            toRed(); // Jalankan urutan pertama
+        }
+    </script>
 
 </body>
 </html>

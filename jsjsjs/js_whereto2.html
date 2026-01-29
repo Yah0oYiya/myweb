@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>EPIC: The Musical Experience</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            /* Transisi halus saat warna background berubah */
+            transition: background 0.8s ease;
+            background-color: #2c3e50;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            backdrop-filter: blur(5px);
+        }
+
+        h2 { color: #1db954; margin-top: 0; }
+
+        #status-text {
+            font-weight: bold;
+            margin: 15px 0;
+            color: #333;
+        }
+
+        .spotify-container {
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .btn-epic {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #1db954; /* Warna khas Spotify */
+            color: white;
+            border: none;
+            border-radius: 50px;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .btn-epic:hover {
+            transform: scale(1.05);
+            background-color: #1ed760;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>EPIC: The Musical</h2>
+    
+    <div class="spotify-container">

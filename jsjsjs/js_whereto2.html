@@ -66,3 +66,39 @@
     <h2>EPIC: The Musical</h2>
     
     <div class="spotify-container">
+        <iframe src="https://open.spotify.com/embed/album/3VvYpX8Sj6K9S9Zp73YpXm?utm_source=generator" 
+                width="100%" height="152" frameBorder="0" allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy"></iframe>
+    </div>
+
+    <p id="status-text">Siap untuk petualangan Odysseus?</p>
+    
+    <button type="button" class="btn-epic" onclick="changeEverything()">Ganti Suasana!</button>
+</div>
+
+<script>
+function changeEverything() {
+    const textElement = document.getElementById("status-text");
+    
+    // 1. Logika Ganti Teks Berulang
+    const messages = [
+        "Ayo dengarkan The Troy Saga! ⚔️",
+        "Atau mungkin The Cyclops Saga? 👁️",
+        "Keep your friends close, and your enemies closer... 🌊",
+        "Look at the stars, what do you see? ✨",
+        "EPIC is just getting started! 🎶"
+    ];
+    
+    // Pilih pesan acak dari daftar
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    textElement.innerHTML = randomMessage;
+
+    // 2. Logika Background Berubah-ubah (Warna Acak)
+    const randomColor = `hsl(${Math.random() * 360}, 60%, 40%)`;
+    document.body.style.backgroundColor = randomColor;
+}
+</script>
+
+</body>
+</html>

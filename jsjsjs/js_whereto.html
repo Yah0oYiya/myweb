@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Interactive Web Page</title>
+<style>
+  /* Menghias tampilan agar lebih modern */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .container {
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    color: #333;
+  }
+
+  #demo {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+    transition: all 0.3s ease; /* Efek halus saat teks berubah */
+  }
+
+  /* Membuat tombol lebih berwarna */
+  .btn-custom {
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .btn-custom:hover {
+    background-color: #45a049;
+  }
+
+  .btn-custom:active {
+    transform: scale(0.95);
+  }
+</style>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("demo");
+  
+  // Logika untuk berganti teks bolak-balik
+  if (x.innerHTML === "A Paragraph.") {
+    x.innerHTML = "Teks sudah berubah! 🎉";
+    x.style.color = "#e91e63"; // Berubah warna teks juga
+  } else {
+    x.innerHTML = "A Paragraph.";
+    x.style.color = "#555";
+  }
+}
+</script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Tampilan Lebih Berwarna</h2>
+  <p id="demo">A Paragraph.</p>
+  <button type="button" class="btn-custom" onclick="myFunction()">Klik Saya!</button>
+</div>
+
+</body>
+</html>

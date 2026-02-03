@@ -6,12 +6,12 @@ if (pH === null || pH === "") {
     let nilai = parseFloat(pH);
 
     if (nilai < 7) {
-        alert("Sifat Larutan: Asam");
+        alert("Sifat Larutan: Asam"); [cite: 49, 61]
     } 
     else if (nilai > 7) {
-        alert("Sifat Larutan: Basa");
+        alert("Sifat Larutan: Basa"); [cite: 51, 63]
     } 
     else {
-        alert("Sifat Larutan: Netral");
+        alert("Sifat Larutan: Netral"); [cite: 53, 67]
     }
 }

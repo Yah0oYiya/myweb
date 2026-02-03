@@ -6,12 +6,15 @@ if (pH === null || pH === "") {
     let nilai = parseFloat(pH);
 
     if (nilai < 7) {
-        alert("Sifat Larutan: Asam"); [cite: 49, 61]
+        // Logika pH kurang dari 7 [cite: 48, 59]
+        alert("Sifat Larutan: Asam"); 
     } 
     else if (nilai > 7) {
-        alert("Sifat Larutan: Basa"); [cite: 51, 63]
+        // Logika pH lebih dari 7 [cite: 50, 64]
+        alert("Sifat Larutan: Basa"); 
     } 
     else {
-        alert("Sifat Larutan: Netral"); [cite: 53, 67]
+        // Logika pH netral [cite: 52]
+        alert("Sifat Larutan: Netral"); 
     }
 }

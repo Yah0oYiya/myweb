@@ -9,6 +9,7 @@
     function cekpH() {
         let pH = prompt("Masukkan nilai pH larutan (0-14):");
 
+    if (!isNaN (pH))
         if (pH === null || pH === "") {
            alert("Kamu belum memasukkan nilai!");
       } else {
@@ -16,15 +17,19 @@
 
         if (1 <= nilai < 7) {
            // Logika pH kurang dari 7
-           message ("Sifat Larutan: Asam"); 
+           alert ("Sifat Larutan: Asam"); 
     } 
         else if (7 < nilai <= 14) {
            // Logika pH lebih dari 7
-           message("Sifat Larutan: Basa"); 
+           alert("Sifat Larutan: Basa"); 
     } 
+        else if (nilai < 14) {
+           // Nilai input pH lebih dari 14
+           alert("Tidak Valid")
+        }
         else {
            // Logika pH netral
-           message("Sifat Larutan: Netral"); 
+           alert("Sifat Larutan: Netral"); 
     }
       }
     }

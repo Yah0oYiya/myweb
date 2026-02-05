@@ -1,5 +1,7 @@
 let pH = prompt("Masukkan nilai pH larutan (0-14):");
 
+<button type="button" onclick="myFunction()">Try it</button>
+
 if (pH === null || pH === "") {
     alert("Kamu belum memasukkan nilai!");
 } else {

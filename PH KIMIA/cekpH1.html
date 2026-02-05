@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>JavaScript Variables</h1>
+<button type="button" onclick="cekpH()">Try it</button>
+
+<p id="demo"></p>
+<script>
+    function cekpH() {
+        let pH = prompt("Masukkan nilai pH larutan (0-14):");
+
+        if (pH === null || pH === "") {
+           alert("Kamu belum memasukkan nilai!");
+      } else {
+        let nilai = parseFloat(pH);
+
+        if (1 <= nilai < 7) {
+           // Logika pH kurang dari 7
+           alert("Sifat Larutan: Asam"); 
+    } 
+        else if (7 < nilai <= 14) {
+           // Logika pH lebih dari 7
+           alert("Sifat Larutan: Basa"); 
+    } 
+        else {
+           // Logika pH netral
+           alert("Sifat Larutan: Netral"); 
+    }
+      }
+    }
+
+document.getElementById("demo").innerHTML;
+</script>
+</body>
+</html>
+

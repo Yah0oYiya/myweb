@@ -2,7 +2,7 @@
 <html>
 <body>
 <h1>Cek pH</h1>
-<button type="button" onclick="cekpH()">Try it</button>
+<button type="button" onclick="cekpH()">Input Angka</button>
 
 <p id="demo"></p>
 <script>
@@ -16,15 +16,15 @@
 
         if (1 <= nilai < 7) {
            // Logika pH kurang dari 7
-           alert("Sifat Larutan: Asam"); 
+           message ("Sifat Larutan: Asam"); 
     } 
         else if (7 < nilai <= 14) {
            // Logika pH lebih dari 7
-           alert("Sifat Larutan: Basa"); 
+           message("Sifat Larutan: Basa"); 
     } 
         else {
            // Logika pH netral
-           alert("Sifat Larutan: Netral"); 
+           message("Sifat Larutan: Netral"); 
     }
       }
     }

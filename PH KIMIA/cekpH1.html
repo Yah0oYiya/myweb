@@ -15,21 +15,21 @@
       } else {
         let nilai = parseFloat(pH);
 
-        if (1 <= nilai < 7) {
+        if ((nilai >= 1) && (nilai < 7)) {
            // Logika pH kurang dari 7
-           alert ("Sifat Larutan: Asam"); 
+           alert("Sifat Larutan: Asam"); 
     } 
-        else if (7 < nilai <= 14) {
+        else if ((nilai > 7) && (nilai <= 14)) {
            // Logika pH lebih dari 7
            alert("Sifat Larutan: Basa"); 
     } 
-        else if (nilai < 14) {
-           // Nilai input pH lebih dari 14
-           alert("Tidak Valid")
-        }
-        else {
+        else if (nilai == 7) {
            // Logika pH netral
            alert("Sifat Larutan: Netral"); 
+    }
+        else {
+           // Nilai input pH lebih dari 14
+           alert("Tidak Valid");
     }
       }
     }

@@ -1,58 +1,105 @@
-<style>
-        :root {
-            --bg-color: #001f3f; /* Biru Navy Dasar */
-            --accent-color: #0074D9; /* Biru Terang */
-        }
+<!DOCTYPE html>
+<html>
+<body>
 
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: radial-gradient(circle at center, var(--accent-color), var(--bg-color));
-            color: white;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden;
-            transition: background 0.5s ease;
-            cursor: pointer;
-        }
+<h1>Menampilkan Hari, Tanggal, Bulan, dan Tahun</h1>
 
-        .display-container {
-            text-align: center;
-            user-select: none;
-            transition: transform 0.2s ease;
-        }
+<p id="demo"></p>
 
-        /* Membuat jam sangat besar */
-        #clock {
-            font-size: 8rem;
-            font-weight: 800;
-            line-height: 1;
-            margin: 0;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            letter-spacing: -2px;
-        }
+<script>
+// membuat object tanggal sekarang
+let sekarang = new Date();
 
-        /* Detail tanggal di bawah jam */
-        #date {
-            font-size: 1.8rem;
-            font-weight: 300;
-            margin-top: 10px;
-            opacity: 0.9;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+// mengambil hari (0–6)
+let hariAngka = sekarang.getDay();
 
-        /* Efek interaktif saat hover */
-        .display-container:hover {
-            transform: scale(1.05);
-        }
+// mengambil tanggal
+let tanggal = sekarang.getDate();
 
-        /* Respon untuk layar kecil/HP */
-        @media (max-width: 600px) {
-            #clock { font-size: 4rem; }
-            #date { font-size: 1.2rem; }
-        }
-    </style>
+// mengambil bulan (0–11)
+let bulanAngka = sekarang.getMonth();
+
+// mengambil tahun
+let tahun = sekarang.getFullYear();
+
+// menentukan nama hari
+let hari;
+switch (hariAngka) {
+  case 0:
+    hari = "Minggu";
+    break;
+  case 1:
+    hari = "Senin";
+    break;
+  case 2:
+    hari = "Selasa";
+    break;
+  case 3:
+    hari = "Rabu";
+    break;
+  case 4:
+    hari = "Kamis";
+    break;
+  case 5:
+    hari = "Jumat";
+    break;
+  case 6:
+    hari = "Sabtu";
+}
+
+// menentukan nama bulan
+let bulan;
+switch (bulanAngka) {
+  case 0:
+    bulan = "Januari";
+    break;
+  case 1:
+    bulan = "Februari";
+    break;
+  case 2:
+    bulan = "Maret";
+    break;
+  case 3:
+    bulan = "April";
+    break;
+  case 4:
+    bulan = "Mei";
+    break;
+  case 5:
+    bulan = "Juni";
+    break;
+  case 6:
+    bulan = "Juli";
+    break;
+  case 7:
+    bulan = "Agustus";
+    break;
+  case 8:
+    bulan = "September";
+    break;
+  case 9:
+    bulan = "Oktober";
+    break;
+  case 10:
+    bulan = "November";
+    break;
+  case 11:
+    bulan = "Desember";
+}
+
+// menampilkan hasil
+
+document.getElementById("demo").innerHTML =
+  "Hari: " + hari + "<br>" +
+  "Tanggal: " + tanggal + "<br>" +
+  "Bulan: " + bulan + "<br>" +
+  "Tahun: " + tahun;
+
+
+// document.getElementById("demo").innerHTML =
+//   hari + ", " + tanggal + " " + bulan + " " + tahun;
+
+</script>
+
+</body>
+</html>

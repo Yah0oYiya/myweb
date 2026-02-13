@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Jam & Tanggal Simpel</title>
+    <style>
+        /* Mengatur background biru dan teks putih agar kontras */
+        body {
+            background-color: #0077be;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        h1 { margin-bottom: 10px; }
+        #clock { font-size: 2em; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="date"></h1>
+        <div id="clock"></div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+
+            // Mengambil tanggal dengan format Indonesia yang rapi
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('id-ID', options);
+            
+            // Mengambil jam, menit, dan detik
+            const timeString = now.toLocaleTimeString('id-ID');
+
+            // Menampilkan ke layar
+            document.getElementById("date").innerHTML = dateString;
+            document.getElementById("clock").innerHTML = timeString;
+        }
+
+        // Jalankan fungsi setiap detik agar jamnya bergerak
+        setInterval(updateTime, 1000);
+        
+        // Panggil sekali di awal agar tidak menunggu 1 detik pertama
+        updateTime();
+    </script>
+
+</body>
+</html>

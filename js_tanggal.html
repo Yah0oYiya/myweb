@@ -2,60 +2,106 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Jam & Tanggal Simpel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Blue Clock</title>
     <style>
-        /* Mengatur background biru dan teks putih agar kontras */
+        :root {
+            --bg-color: #001f3f; /* Biru Navy Dasar */
+            --accent-color: #0074D9; /* Biru Terang */
+        }
+
         body {
-            background-color: #0077be;
-            color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, var(--accent-color), var(--bg-color));
+            color: white;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            transition: background 0.5s ease;
+            cursor: pointer;
         }
-        .container {
+
+        .display-container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            user-select: none;
+            transition: transform 0.2s ease;
         }
-        h1 { margin-bottom: 10px; }
-        #clock { font-size: 2em; font-weight: bold; }
+
+        /* Membuat jam sangat besar */
+        #clock {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 0;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            letter-spacing: -2px;
+        }
+
+        /* Detail tanggal di bawah jam */
+        #date {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-top: 10px;
+            opacity: 0.9;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Efek interaktif saat hover */
+        .display-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Respon untuk layar kecil/HP */
+        @media (max-width: 600px) {
+            #clock { font-size: 4rem; }
+            #date { font-size: 1.2rem; }
+        }
     </style>
 </head>
-<body>
+<body onclick="changeShade()">
 
-    <div class="container">
-        <h1 id="date"></h1>
-        <div id="clock"></div>
+    <div class="display-container">
+        <div id="clock">00:00:00</div>
+        <div id="date">Memuat Tanggal...</div>
     </div>
 
     <script>
-        function updateTime() {
-            const now = new Date();
+        function updateDisplay() {
+            const sekarang = new Date();
 
-            // Mengambil tanggal dengan format Indonesia yang rapi
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateString = now.toLocaleDateString('id-ID', options);
+            // Format Jam (HH:MM:SS)
+            const jam = String(sekarang.getHours()).padStart(2, '0');
+            const menit = String(sekarang.getMinutes()).padStart(2, '0');
+            const detik = String(sekarang.getSeconds()).padStart(2, '0');
             
-            // Mengambil jam, menit, dan detik
-            const timeString = now.toLocaleTimeString('id-ID');
+            document.getElementById('clock').textContent = `${jam}:${menit}:${detik}`;
 
-            // Menampilkan ke layar
-            document.getElementById("date").innerHTML = dateString;
-            document.getElementById("clock").innerHTML = timeString;
+            // Format Tanggal Lengkap
+            const opsi = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const tanggal = sekarang.toLocaleDateString('id-ID', opsi);
+            document.getElementById('date').textContent = tanggal;
         }
 
-        // Jalankan fungsi setiap detik agar jamnya bergerak
-        setInterval(updateTime, 1000);
-        
-        // Panggil sekali di awal agar tidak menunggu 1 detik pertama
-        updateTime();
-    </script>
+        // Fitur Interaktif: Klik untuk ubah nuansa biru
+        function changeShade() {
+            const shades = [
+                'radial-gradient(circle, #0074D9, #001f3f)',
+                'radial-gradient(circle, #7FDBFF, #0074D9)',
+                'radial-gradient(circle, #39CCCC, #001f3f)',
+                'radial-gradient(circle, #001f3f, #000000)'
+            ];
+            const randomShade = shades[Math.floor(Math.random() * shades.length)];
+            document.body.style.background = randomShade;
+        }
 
+        // Update setiap detik
+        setInterval(updateDisplay, 1000);
+        updateDisplay();
+    </script>
 </body>
 </html>

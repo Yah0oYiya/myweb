@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>hari di bahasa aylien</h1>
+<h2>nida pia at mimi</h2>
+
+<p id="demo"></p>
+
+<script>
+let day;
+let now = new Date();
+ 
+let date = now.getDate();
+let month = now.getMonth() + 1;
+let year = now.getFullYear();
+
+switch (month) {
+  case 0:
+    month = "aiueo";
+    break;
+  case 1:
+    month = "iueoa";
+    break;
+  case 2:
+    month = "ueoai";
+    break;
+  case 3:
+    month = "eoaiu";
+    break;
+  case 4:
+    month = "oaieo";
+    break;
+  case 5:
+    month = "iaiao";
+    break;
+  case  6:
+    month = "oiaia";
+}
+
+document.getElementById("demo").innerHTML = "nida mimi " + day;
+</script>
+
+</body>
+</html>

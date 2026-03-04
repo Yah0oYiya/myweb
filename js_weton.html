@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waktu & Weton</title>
+    <style>
+        :root { --bg: #001f3f; --accent: #0074D9; }
+        body {
+            margin: 0; min-height: 100 vh; display: flex; justify-content: center; align-items: center;
+            background: radial-gradient(circle, var(--accent), var(--bg));
+            color: white; font-family: 'Segoe UI', sans-serif; cursor: pointer; transition: 0.5s;
+        }
+        .container { text-align: center; user-select: none; transition: 0.3s; }
+        .container:hover { transform: scale(1.05); }
+        #clock { font-size: clamp(4rem, 15vw, 8rem); font-weight: 800; margin: 0; line-height: 1; }
+        #details { font-size: clamp(1rem, 4vw, 1.8rem); font-weight: 300; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase; }
+    </style>
+</head>
+<body onclick="this.style.background = ['#0074D9','#7FDBFF','#39CCCC','#001f3f'][Math.floor(Math.random()*4)]">
+
+    <div class="container">
+        <div id="clock">00:00:00</div>
+        <div id="details">Memuat...</div>
+    </div>
+
+    <script>
+        function update() {
+            const now = new Date();
+            
+            // 1. Format Jam
+            document.getElementById('clock').textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+
+            // 2. Logika Switch untuk Hari (Permintaan User)
+            let day;
+            switch (now.getDay()) {
+                case 0: day = "Minggu"; break;
+                case 1: day = "Senin"; break;
+                case 2: day = "Selasa"; break;
+                case 3: day = "Rabu"; break;
+                case 4: day = "Kamis"; break;
+                case 5: day = "Jumat"; break;
+                case 6: day = "Sabtu"; break;
+            }
+
+            // 3. Logika Weton (Pasaran)
+            // 1 Januari 1970 adalah Kamis Wage. Kita hitung selisih hari dari sana.
+            const pasaran = ["Wage", "Kliwon", "Legi", "Pahing", "Pon"];
+            const selisihHari = Math.floor(now.getTime() / (24 * 60 * 60 * 1000));
+            const hariPasaran = pasaran[selisihHari % 5];
+
+            // 4. Update Tampilan
+            const tgl = now.getDate();
+            const bln = now.toLocaleDateString('id-ID', { month: 'long' });
+            const thn = now.getFullYear();
+            
+            document.getElementById('details').textContent = `${day} ${hariPasaran}, ${tgl} ${bln} ${thn}`;
+        }
+
+        setInterval(update, 1000);
+        update();
+    </script>
+</body>
+</html>

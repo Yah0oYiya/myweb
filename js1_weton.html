@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Clock</title>
+    <style>
+        body {
+            margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white;
+            background: radial-gradient(circle, #0074D9, #001f3f);
+            font-family: sans-serif; cursor: pointer; transition: 0.5s;
+        }
+        #clock { font-size: clamp(4rem, 15vw, 8rem); font-weight: 800; }
+        #date { font-size: clamp(1rem, 3vw, 1.5rem); letter-spacing: 2px; text-transform: uppercase; }
+    </style>
+</head>
+<body onclick="let colors=['#0074D9','#7FDBFF','#39CCCC','#001f3f']; this.style.background=colors[Math.floor(Math.random()*4)]">
+
+    <div id="clock">00:00:00</div>
+    <div id="date">Memuat...</div>
+
+    <script>
+        function update() {
+            let now = new Date();
+            let days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            let pasaran = ["Wage", "Kliwon", "Legi", "Pahing", "Pon"];
+            
+            // 1. Menggunakan Let & Switch (Permintaan Anda)
+            let dayName;
+            switch (now.getDay()) {
+                case 0: dayName = days[0]; break;
+                case 1: dayName = days[1]; break;
+                case 2: dayName = days[2]; break;
+                case 3: dayName = days[3]; break;
+                case 4: dayName = days[4]; break;
+                case 5: dayName = days[5]; break;
+                case 6: dayName = days[6]; break;
+            }
+
+            // 2. Hitung Weton dalam 1 baris let
+            let weton = pasaran[Math.floor(now.getTime() / 86400000) % 5];
+
+            // 3. Update Tampilan (Langsung ke element ID)
+            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID');
+            document.getElementById('date').innerText = `${dayName} ${weton}, ${now.toLocaleDateString('id-ID', {dateStyle:'long'})}`;
+        }
+
+        setInterval(update, 1000);
+        update();
+    </script>
+</body>
+</html>

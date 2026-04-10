@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Masukkan semua kode function update, setInterval, dan update() kamu di sini
 function update() {
             let now = new Date();
             let days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
@@ -25,3 +27,4 @@ function update() {
 
         setInterval(update, 1000);
         update();
+});

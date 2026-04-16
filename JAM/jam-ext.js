@@ -1,32 +1,64 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Masukkan semua kode function update, setInterval, dan update() kamu di sini
-    <script>
-        function update() {
-            let now = new Date();
-            let days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-            let pasaran = ["Wage", "Kliwon", "Legi", "Pahing", "Pon"];
-            
-            // 1. Menggunakan Let & Switch
-            let dayName;
-            switch (now.getDay()) {
-                case 0: dayName = days[0]; break;
-                case 1: dayName = days[1]; break;
-                case 2: dayName = days[2]; break;
-                case 3: dayName = days[3]; break;
-                case 4: dayName = days[4]; break;
-                case 5: dayName = days[5]; break;
-                case 6: dayName = days[6]; break;
-            }
+function tampilkanJam() {
 
-            // 2. Hitung Weton dalam 1 baris let
-            let weton = pasaran[Math.floor(now.getTime() / 86400000) % 5];
+  let sekarang = new Date();
 
-            // 3. Update Tampilan (Langsung ke element ID)
-            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID');
-            document.getElementById('date').innerText = `${dayName} ${weton}, ${now.toLocaleDateString('id-ID', {dateStyle:'long'})}`;
-        }
+  let hariAngka = sekarang.getDay();
+  let tanggal = sekarang.getDate();
+  let bulanAngka = sekarang.getMonth();
+  let tahun = sekarang.getFullYear();
 
-        setInterval(update, 1000);
-        update();
-    </script>
-});
+  let jam = sekarang.getHours();
+  let menit = sekarang.getMinutes();
+  let detik = sekarang.getSeconds();
+
+
+  if (jam < 10) jam = "0" + jam;
+  if (menit < 10) menit = "0" + menit;
+  if (detik < 10) detik = "0" + detik;
+
+  
+  let hari;
+  switch(hariAngka) {
+    case 0: hari="Minggu"; break;
+    case 1: hari="Senin"; break;
+    case 2: hari="Selasa"; break;
+    case 3: hari="Rabu"; break;
+    case 4: hari="Kamis"; break;
+    case 5: hari="Jumat"; break;
+    case 6: hari="Sabtu"; break;
+  }
+
+  let bulan;
+  switch(bulanAngka) {
+    case 0: bulan="Januari"; break;
+    case 1: bulan="Februari"; break;
+    case 2: bulan="Maret"; break;
+    case 3: bulan="April"; break;
+    case 4: bulan="Mei"; break;
+    case 5: bulan="Juni"; break;
+    case 6: bulan="Juli"; break;
+    case 7: bulan="Agustus"; break;
+    case 8: bulan="September"; break;
+    case 9: bulan="Oktober"; break;
+    case 10: bulan="November"; break;
+    case 11: bulan="Desember"; break;
+  }
+
+  let pasaran = ["Wage","Kliwon","Legi","Pahing","Pon"];
+
+let epoch = new Date(1970, 0, 1);
+let selisihHari = Math.floor((sekarang - epoch) / (1000 * 60 * 60 * 24));
+
+let indeksPasaran = selisihHari % 5;
+
+  document.getElementById("tanggal").innerHTML =
+    hari + " " + pasaran[indeksPasaran] + ", " + tanggal + " " + bulan + " " + tahun;
+
+  document.getElementById("jam").innerHTML =
+    jam + "<span class='kedip'>:</span>" +
+    menit + "<span class='kedip'>:</span>" +
+    detik;
+} 
+
+setInterval(tampilkanJam, 1000);
+tampilkanJam();

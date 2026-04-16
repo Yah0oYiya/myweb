@@ -1,36 +1,32 @@
-
+/* Mengatur seluruh badan halaman */
 body {
-    background-color: #2c3e50; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #f4f4f4; /* Warna latar belakang abu-abu muda */
+    font-family: Arial, sans-serif; /* Jenis huruf */
     margin: 0;
-    font-family: 'Courier New', Courier, monospace; 
+    padding: 20px;
 }
 
-
-.kotak {
-    background-color: #34495e;
-    padding: 30px 50px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+/* Mengatur gaya judul utama */
+h1 {
+    color: darkblue;
     text-align: center;
-    border: 2px solid #1abc9c;
+    border-bottom: 2px solid black;
 }
 
-
-#tanggal {
-    font-size: 1.2rem;
-    color: #bdc3c7;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
+/* Mengatur gaya paragraf */
+p {
+    line-height: 1.6;
+    color: #333;
 }
 
-
-#Jam {
-    font-size: 4rem;
-    color: #1abc9c;
+/* Mengatur elemen berdasarkan Class (menggunakan titik) */
+.highlight {
+    background-color: yellow;
     font-weight: bold;
-    text-shadow: 0 0 15px rgba(26, 188, 156, 0.7);
+}
+
+/* Mengatur elemen berdasarkan ID (menggunakan tanda pagar) */
+#header-utama {
+    padding: 10px;
+    background: white;
 }

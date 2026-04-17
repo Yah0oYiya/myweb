@@ -1,30 +1,55 @@
-:root { --bg: #001f3f; --accent: #0074D9; }
-
-body {
-    margin: 0; min-height: 100 vh; display: flex; justify-content: center; align-items: center;
-    background: radial-gradient(circle, var(--accent), var(--bg));
-    color: white; font-family: 'Segoe UI', sans-serif; cursor: pointer; transition: 0.5s;
-    justify-content: center;
-    align-items: center;
+:root { 
+    --bg: #001f3f; 
+    --accent: #0074D9; 
 }
 
-
-.container { text-align: center; user-select: none; transition: 0.3s; }
-        .container:hover { transform: scale(1.05); }
-        #clock { font-size: clamp(4rem, 15vw, 8rem); font-weight: 800; margin: 0; line-height: 1; }
-        #details { font-size: clamp(1rem, 4vw, 1.8rem); font-weight: 300; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase; 
+body {
+    margin: 0; 
+    min-height: 100vh;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    background: var(--bg); 
+    color: white; 
+    font-family: 'Segoe UI', sans-serif; 
+    cursor: pointer; 
+    transition: 0.5s;
 }
 
 .kotak {
-    background-color: rgba(155, 89, 216, 0.445); /* Transparan putih tipis */
-    padding: 40px 60px;                         /* Ruang di dalam kotak */
-    border-radius: 20px;                        /* Membuat sudut kotak tumpul */
-    border: 2px solid rgba(236, 162, 255, 0.719); /* Garis tepi tipis */
-    backdrop-filter: blur(10px);                /* Efek kaca buram (Glassmorphism) */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); /* Bayangan agar terlihat timbul */
-    text-align: center;                         /* Memastikan teks di dalam kotak rata tengah */
-    min-width: 100px;                           /* Lebar minimal kotak */
+    background-color: rgba(155, 89, 216, 0.2);
+    padding: 40px 60px;
+    border-radius: 20px;
+    border: 2px solid rgba(236, 162, 255, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    min-width: 300px;
+    transition: 0.3s;
 }
 
-#jam {
-    margin-bottom: 10px;}
+.kotak:hover { 
+    transform: scale(1.05); 
+}
+
+#jam { 
+    font-size: clamp(4rem, 15vw, 8rem); 
+    font-weight: 800; 
+    margin: 0; 
+    line-height: 1; 
+}
+
+#tanggal { 
+    font-size: clamp(1rem, 4vw, 1.8rem); 
+    font-weight: 300; 
+    margin-top: 15px; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+}
+
+.kedip {
+    animation: blink 1s infinite;
+}
+@keyframes blink {
+    50% { opacity: 0; }
+}

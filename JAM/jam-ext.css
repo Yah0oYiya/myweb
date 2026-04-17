@@ -8,13 +8,20 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
+    justify-content: center; /* Mengetengahkan secara horizontal (kiri-kanan) */
+    align-items: center;
 }
 
 
 .kotak { 
-    text-align: center; 
-    user-select: none; 
-    transition: 0.3s; 
+    background-color: rgba(255, 124, 244, 0.644); /* Transparan putih tipis */
+    padding: 40px 60px;                         /* Ruang di dalam kotak */
+    border-radius: 20px;                        /* Membuat sudut kotak tumpul */
+    border: 2px solid rgba(162, 21, 175, 0.459); /* Garis tepi tipis */
+    backdrop-filter: blur(10px);                /* Efek kaca buram (Glassmorphism) */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); /* Bayangan agar terlihat timbul */
+    text-align: center;                         /* Memastikan teks di dalam kotak rata tengah */
+    min-width: 300px;                           /* Lebar minimal kotak */
 }
 
 .kotak:hover { 
@@ -24,7 +31,7 @@ body {
 #jam { 
     font-size: clamp(4rem, 15vw, 8rem); 
     font-weight: 800; 
-    margin: 0; 
+    margin-bottom: 10px; 
     line-height: 1; 
 }
 

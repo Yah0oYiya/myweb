@@ -21,7 +21,7 @@ body {
     backdrop-filter: blur(10px);                /* Efek kaca buram (Glassmorphism) */
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); /* Bayangan agar terlihat timbul */
     text-align: center;                         /* Memastikan teks di dalam kotak rata tengah */
-    min-width: 300px;                           /* Lebar minimal kotak */
+    min-width: 50px;                           /* Lebar minimal kotak */
 }
 
 .kotak:hover { 

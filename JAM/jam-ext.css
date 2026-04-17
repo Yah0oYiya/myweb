@@ -14,3 +14,17 @@ body {
         #clock { font-size: clamp(4rem, 15vw, 8rem); font-weight: 800; margin: 0; line-height: 1; }
         #details { font-size: clamp(1rem, 4vw, 1.8rem); font-weight: 300; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase; 
 }
+
+.kotak {
+    background-color: rgba(155, 89, 216, 0.445); /* Transparan putih tipis */
+    padding: 40px 60px;                         /* Ruang di dalam kotak */
+    border-radius: 20px;                        /* Membuat sudut kotak tumpul */
+    border: 2px solid rgba(236, 162, 255, 0.719); /* Garis tepi tipis */
+    backdrop-filter: blur(10px);                /* Efek kaca buram (Glassmorphism) */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); /* Bayangan agar terlihat timbul */
+    text-align: center;                         /* Memastikan teks di dalam kotak rata tengah */
+    min-width: 100px;                           /* Lebar minimal kotak */
+}
+
+#jam {
+    margin-bottom: 10px;}

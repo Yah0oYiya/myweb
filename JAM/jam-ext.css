@@ -1,7 +1,4 @@
-:root { 
-    --bg: #001f3f; 
-    --accent: #0074D9;
-}
+:root { --bg: #001f3f; --accent: #0074D9; }
 
 body {
     margin: 0; min-height: 100 vh; display: flex; justify-content: center; align-items: center;
@@ -15,27 +12,5 @@ body {
 .container { text-align: center; user-select: none; transition: 0.3s; }
         .container:hover { transform: scale(1.05); }
         #clock { font-size: clamp(4rem, 15vw, 8rem); font-weight: 800; margin: 0; line-height: 1; }
-        #details { font-size: clamp(1rem, 4vw, 1.8rem); font-weight: 300; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase; }
-
-.kotak:hover { 
-    transform: scale(1.05); 
-}
-
-#jam { 
-    font-size: clamp(4rem, 15vw, 8rem); 
-    font-weight: 800; 
-    margin-bottom: 10px; 
-    line-height: 1; 
-}
-
-#tanggal { 
-    font-size: clamp(1rem, 4vw, 1.8rem); 
-    font-weight: 300; 
-    margin-top: 15px; 
-    letter-spacing: 2px; 
-    text-transform: uppercase; 
-}
-
-.kedip {
-    animation: blink 5s infinite;
+        #details { font-size: clamp(1rem, 4vw, 1.8rem); font-weight: 300; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase; 
 }

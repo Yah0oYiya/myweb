@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort Learning Challenge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bar-transition {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pivot-active {
+            background-color: #f59e0b !important;
+            border: 4px solid #fff;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+        .bar-comparing {
+            border: 4px solid #3b82f6;
+            transform: translateY(-15px);
+            z-index: 10;
+        }
+        .bar-sorted {
+            background-color: #10b981 !important;
+            border: none !important;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        .wrong-answer {
+            animation: shake 0.2s ease-in-out 0s 2;
+            background-color: #ef4444 !important;
+        }
+        .pointer-label {
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: -30px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center p-4 font-sans">
+
+    <div class="max-w-4xl w-full">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center mb-6 bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-xl">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center font-bold text-slate-900">Q</div>
+                <h1 class="text-xl font-bold text-slate-100">Quick Sort Master</h1>
+            </div>
+            <div class="flex gap-6 text-sm font-mono uppercase tracking-wider">
+                <div class="flex flex-col items-end">
+                    <span class="text-slate-500 text-[10px]">Skor</span>
+                    <span id="score" class="text-emerald-400 text-xl font-bold">0</span>
+                </div>
+                <div class="flex flex-col items-end">
+                    <span class="text-slate-500 text-[10px]">Nyawa</span>
+                    <span id="lives" class="text-red-400 text-xl font-bold">3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="bg-slate-900 rounded-3xl p-6 md:p-10 border border-slate-800 shadow-2xl relative">
+            
+            <!-- Logic Guide (Floating) -->
+            <div class="absolute top-4 right-4 text-[10px] bg-slate-800 p-2 rounded border border-slate-700 hidden md:block">
+                <p><span class="text-amber-500">■</span> Pivot (Patokan)</p>
+                <p><span class="text-blue-500">■</span> Sedang Dicek</p>
+                <p><span class="text-red-500">■</span> Batas Area Kecil</p>
+            </div>
+
+            <!-- Instruction Text -->
+            <div id="quiz-msg" class="mb-10 text-center max-w-lg mx-auto">
+                <h2 id="step-title" class="text-amber-400 font-bold uppercase text-xs tracking-widest mb-2">Persiapan</h2>
+                <p id="instruction" class="text-lg md:text-xl font-medium text-slate-200 leading-relaxed">
+                    Siap belajar Quick Sort? Klik tombol di bawah untuk mulai!
+                </p>
+            </div>
+
+            <!-- Visualization Area -->
+            <div id="array-container" class="flex justify-center items-end gap-3 h-64 mb-20 relative px-4">
+                <!-- Bar-bar angka akan muncul di sini -->
+            </div>
+
+            <!-- Quiz Interaction -->
+            <div id="controls" class="flex flex-col items-center gap-6">
+                <button id="btn-start" onclick="startGame()" class="px-12 py-4 bg-amber-500 hover:bg-amber-400 text-slate-900 rounded-xl font-black text-lg transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-amber-500/20">
+                    MULAI TANTANGAN
+                </button>
+
+                <div id="quiz-actions" class="hidden flex flex-col items-center gap-6 w-full">
+                    <div class="flex gap-4 w-full max-w-md">
+                        <button onclick="checkAnswer(true)" class="flex-1 py-5 bg-blue-600 hover:bg-blue-500 rounded-2xl font-bold text-lg transition-all border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">
+                            TUKAR <br><span class="text-[10px] opacity-80">(Jika < Pivot)</span>
+                        </button>
+                        <button onclick="checkAnswer(false)" class="flex-1 py-5 bg-slate-700 hover:bg-slate-600 rounded-2xl font-bold text-lg transition-all border-b-4 border-slate-800 active:border-b-0 active:translate-y-1">
+                            TETAP <br><span class="text-[10px] opacity-80">(Jika >= Pivot)</span>
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-500 animate-pulse">Petunjuk: Bandingkan angka biru dengan angka kuning</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="modal" class="fixed inset-0 bg-slate-950/90 hidden flex items-center justify-center z-50 p-6 backdrop-blur-md">
+        <div class="bg-slate-900 p-10 rounded-3xl max-w-md w-full text-center border border-slate-800 shadow-2xl">
+            <div id="modal-icon" class="text-7xl mb-6">🔥</div>
+            <h2 id="modal-title" class="text-3xl font-black mb-2 italic">BERHASIL!</h2>
+            <p id="modal-desc" class="mb-8 text-slate-400 text-lg">Kamu menyelesaikan pengurutan dengan sangat baik.</p>
+            <button onclick="closeModal()" class="w-full py-4 bg-amber-500 text-slate-900 rounded-xl font-black text-xl hover:bg-amber-400 transition-all">MAIN LAGI</button>
+        </div>
+    </div>
+
+    <script>
+        let array = [];
+        let sortedIndices = new Set();
+        let stack = [];
+        let currentRange = null;
+        let i = -1;
+        let j = -1;
+        let pivotIdx = -1;
+        let score = 0;
+        let lives = 3;
+        let isGameOver = false;
+
+        const container = document.getElementById('array-container');
+        const instruction = document.getElementById('instruction');
+        const stepTitle = document.getElementById('step-title');
+        const scoreEl = document.getElementById('score');
+        const livesEl = document.getElementById('lives');
+        const quizActions = document.getElementById('quiz-actions');
+        const btnStart = document.getElementById('btn-start');
+
+        function startGame() {
+            // Generate array acak
+            array = Array.from({length: 6}, () => Math.floor(Math.random() * 70) + 20);
+            sortedIndices.clear();
+            stack = [[0, array.length - 1]];
+            score = 0;
+            lives = 3;
+            isGameOver = false;
+            updateStats();
+            
+            btnStart.classList.add('hidden');
+            quizActions.classList.remove('hidden');
+            
+            processNextRange();
+        }
+
+        function processNextRange() {
+            if (stack.length === 0) {
+                endGame(true);
+                return;
+            }
+
+            currentRange = stack.pop();
+            const [low, high] = currentRange;
+
+            // Jika sub-array kosong atau hanya 1 elemen, tandai sudah urut
+            if (low >= high) {
+                if (low === high) sortedIndices.add(low);
+                processNextRange();
+                return;
+            }
+
+            // Quick Sort Strategi: Lomuto Partition
+            pivotIdx = high; 
+            i = low - 1; // i adalah batas angka yang lebih kecil dari pivot
+            j = low;     // j adalah pemindai yang berjalan
+            
+            stepTitle.innerText = "Langkah: Memilih Pivot";
+            updateUI(`Kita pilih <b>${array[pivotIdx]}</b> sebagai Pivot. Sekarang, apakah <b>${array[j]}</b> lebih kecil dari <b>${array[pivotIdx]}</b>?`);
+            renderArray();
+        }
+
+        function renderArray(wrongIdx = -1) {
+            container.innerHTML = '';
+            const width = container.offsetWidth;
+            const gap = 12;
+            const barW = Math.floor((width - 40) / array.length) - gap;
+
+            array.forEach((val, idx) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar-transition absolute bottom-0 flex flex-col items-center justify-end font-bold rounded-t-xl shadow-2xl';
+                bar.style.height = `${val * 3}px`;
+                bar.style.width = `${barW}px`;
+                bar.style.left = `${idx * (barW + gap) + 20}px`;
+                bar.style.backgroundColor = '#334155'; // Default slate-700
+                
+                bar.innerHTML = `<span class="mb-3 text-sm">${val}</span>`;
+
+                if (sortedIndices.has(idx)) bar.classList.add('bar-sorted');
+                if (idx === pivotIdx) bar.classList.add('pivot-active');
+                if (idx === j) bar.classList.add('bar-comparing');
+                if (idx === wrongIdx) bar.classList.add('wrong-answer');
+
+                // Visual Pointer i (Batas Area Kecil)
+                if (idx === i && i >= 0) {
+                    const iTag = document.createElement('div');
+                    iTag.className = 'pointer-label bg-red-500 text-white';
+                    iTag.innerText = 'BATAS KECIL';
+                    iTag.style.bottom = '-45px';
+                    bar.appendChild(iTag);
+                    bar.style.borderBottom = "5px solid #ef4444";
+                }
+
+                // Visual Pointer j (Yang dicek)
+                if (idx === j) {
+                    const jTag = document.createElement('div');
+                    jTag.className = 'pointer-label bg-blue-500 text-white';
+                    jTag.innerText = 'CEK INI';
+                    jTag.style.bottom = '-75px';
+                    bar.appendChild(jTag);
+                }
+
+                container.appendChild(bar);
+            });
+        }
+
+        function checkAnswer(userSaysSwap) {
+            if (isGameOver) return;
+
+            const shouldSwap = array[j] < array[pivotIdx];
+            
+            if (userSaysSwap === shouldSwap) {
+                score += 10;
+                stepTitle.innerText = "Langkah: Partisi";
+
+                if (shouldSwap) {
+                    i++;
+                    // Animasi tukar
+                    [array[i], array[j]] = [array[j], array[i]];
+                    updateUI(`Benar! <b>${array[i]}</b> lebih kecil, maka kita pindahkan ke area kiri.`);
+                } else {
+                    updateUI(`Benar! <b>${array[j]}</b> tidak lebih kecil, biarkan dia di area kanan.`);
+                }
+                
+                j++;
+                updateStats();
+                
+                if (j < pivotIdx) {
+                    renderArray();
+                } else {
+                    // Tahap Akhir Partisi: Letakkan Pivot di Tengah
+                    const pIdx = i + 1;
+                    [array[pIdx], array[pivotIdx]] = [array[pivotIdx], array[pIdx]];
+                    sortedIndices.add(pIdx);
+                    
+                    const [low, high] = currentRange;
+                    // Simpan sub-array kanan dan kiri ke stack untuk diproses nanti
+                    stack.push([pIdx + 1, high]);
+                    stack.push([low, pIdx - 1]);
+                    
+                    updateUI(`<b>Hebat!</b> Satu putaran selesai. Pivot <b>${array[pIdx]}</b> sudah terkunci di posisi yang benar.`);
+                    pivotIdx = -1; // Sembunyikan highlight pivot sementara
+                    j = -1;
+                    renderArray();
+                    
+                    setTimeout(processNextRange, 1500);
+                }
+            } else {
+                lives--;
+                updateStats();
+                renderArray(j);
+                updateUI(`<span class="text-red-500">Salah!</span> Bandingkan dengan Pivot: <b>${array[j]}</b> vs <b>${array[pivotIdx]}</b>.`);
+                
+                if (lives <= 0) endGame(false);
+            }
+        }
+
+        function updateUI(msg) {
+            instruction.innerHTML = msg;
+        }
+
+        function updateStats() {
+            scoreEl.innerText = score;
+            livesEl.innerText = lives;
+        }
+
+        function endGame(success) {
+            isGameOver = true;
+            quizActions.classList.add('hidden');
+            const modal = document.getElementById('modal');
+            const mTitle = document.getElementById('modal-title');
+            const mDesc = document.getElementById('modal-desc');
+            const mIcon = document.getElementById('modal-icon');
+
+            if (success) {
+                mTitle.innerText = "QUICK SORT";
+                mIcon.innerText = "👑";
+                mDesc.innerText = `Kamu berhasil! Skor: ${score}`;
+            } else {
+                mTitle.innerText = "COBA LAGI!";
+                mIcon.innerText = "🥀";
+                mDesc.innerText = `Jangan menyerah, Quick Sort butuh ketelitian. Skor: ${score}`;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            btnStart.classList.remove('hidden');
+            updateUI("Siap mencoba lagi?");
+            stepTitle.innerText = "Persiapan";
+            renderArray();
+        }
+
+        window.onload = () => {
+            array = [40, 20, 60, 10, 50, 30];
+            renderArray();
+        }
+    </script>
+</body>
+</html>

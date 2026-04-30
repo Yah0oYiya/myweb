@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktif Selection Sort Game</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --error: #ef4444;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .description {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem;
+            background: #f1f5f9;
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+
+        .array-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            min-height: 80px;
+        }
+
+        .node {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .node:hover:not(.sorted) {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        /* State Styles */
+        .node.sorted {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+            cursor: default;
+        }
+
+        .node.current-target {
+            border-color: var(--accent);
+            background-color: #fffbeb;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+        }
+
+        .node.selected {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .node.wrong {
+            animation: shake 0.4s;
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .controls {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message-box {
+            min-height: 3rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button.reset {
+            background-color: var(--text-muted);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Selection Sort Challenge</h1>
+    <p class="description">
+        Tugas Anda: Temukan angka <strong>terkecil</strong> dari bagian yang belum terurut dan pindahkan ke posisi target (kotak kuning).
+    </p>
+
+    <div class="stats">
+        <div>Langkah: <span id="step-count">0</span></div>
+        <div>Salah: <span id="error-count">0</span></div>
+    </div>
+
+    <div id="array-display" class="array-container">
+        <!-- Angka akan dimunculkan di sini oleh JS -->
+    </div>
+
+    <div class="message-box" id="game-message">
+        Siap? Cari angka terkecil untuk mengisi posisi pertama!
+    </div>
+
+    <div class="controls">
+        <button onclick="initGame()" class="reset">Acak Angka Baru</button>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="dot" style="background: var(--accent);"></div> Target</div>
+        <div class="legend-item"><div class="dot" style="background: var(--secondary);"></div> Terurut</div>
+        <div class="legend-item"><div class="dot" style="border: 1px solid #ccc;"></div> Belum Terurut</div>
+    </div>
+</div>
+
+<script>
+    let numbers = [];
+    let currentIndex = 0; // Index i dalam Selection Sort
+    let steps = 0;
+    let errors = 0;
+    const arraySize = 7;
+
+    // Inisialisasi Game
+    function initGame() {
+        numbers = [];
+        currentIndex = 0;
+        steps = 0;
+        errors = 0;
+        
+        document.getElementById('step-count').innerText = steps;
+        document.getElementById('error-count').innerText = errors;
+        document.getElementById('game-message').innerText = "Cari angka terkecil untuk mengisi posisi target (kuning)!";
+
+        // Generate angka unik 1-99
+        while(numbers.length < arraySize) {
+            let r = Math.floor(Math.random() * 90) + 1;
+            if(numbers.indexOf(r) === -1) numbers.push(r);
+        }
+        
+        renderArray();
+    }
+
+    // Menampilkan elemen array ke layar
+    function renderArray() {
+        const container = document.getElementById('array-display');
+        container.innerHTML = '';
+
+        numbers.forEach((val, idx) => {
+            const node = document.createElement('div');
+            node.className = 'node';
+            node.innerText = val;
+
+            // Tambahkan class berdasarkan status
+            if (idx < currentIndex) {
+                node.classList.add('sorted');
+            } else if (idx === currentIndex) {
+                node.classList.add('current-target');
+            }
+
+            node.onclick = () => handleNodeClick(idx, node);
+            container.appendChild(node);
+        });
+    }
+
+    // Logika saat angka diklik
+    function handleNodeClick(clickedIdx, element) {
+        // Abaikan jika klik yang sudah terurut atau game selesai
+        if (clickedIdx < currentIndex || currentIndex >= numbers.length) return;
+
+        // Cari nilai minimum yang sebenarnya di sisa array (dari currentIndex ke kanan)
+        const remainingArray = numbers.slice(currentIndex);
+        const minValue = Math.min(...remainingArray);
+        const clickedValue = numbers[clickedIdx];
+
+        if (clickedValue === minValue) {
+            // BENAR: Lakukan Pertukaran (Swap)
+            steps++;
+            document.getElementById('step-count').innerText = steps;
+            
+            // Visual Swap logic
+            if (clickedIdx !== currentIndex) {
+                [numbers[currentIndex], numbers[clickedIdx]] = [numbers[clickedIdx], numbers[currentIndex]];
+                document.getElementById('game-message').innerHTML = `Tepat! Menukar <b>${clickedValue}</b> ke posisi ${currentIndex + 1}.`;
+            } else {
+                document.getElementById('game-message').innerHTML = `Benar! <b>${clickedValue}</b> sudah berada di posisi terkecil yang tepat.`;
+            }
+
+            currentIndex++;
+            
+            // Cek jika sudah selesai
+            if (currentIndex === numbers.length - 1) {
+                currentIndex = numbers.length; // Tandai semua selesai
+                document.getElementById('game-message').innerHTML = "🎉 <b>Luar Biasa!</b> Semua angka telah terurut menggunakan konsep Selection Sort.";
+            }
+
+            renderArray();
+        } else {
+            // SALAH
+            errors++;
+            document.getElementById('error-count').innerText = errors;
+            element.classList.add('wrong');
+            document.getElementById('game-message').innerHTML = `<span style="color: var(--error)">Oops! ${clickedValue} bukan angka terkecil. Lihat lagi bagian yang belum hijau.</span>`;
+            
+            setTimeout(() => {
+                element.classList.remove('wrong');
+            }, 400);
+        }
+    }
+
+    // Mulai game saat window dimuat
+    window.onload = initGame;
+</script>
+
+</body>
+</html>

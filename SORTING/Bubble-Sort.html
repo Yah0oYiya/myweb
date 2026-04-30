@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort Mastery Challenge</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --success: #22c55e;
+            --error: #ef4444;
+            --text: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 650px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 { color: var(--primary); margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+        .description { color: #94a3b8; margin-bottom: 2rem; font-size: 0.9rem; }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 1rem;
+            font-weight: bold;
+        }
+
+        .lives { color: var(--error); }
+        .score { color: var(--success); }
+
+        .array-display {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 3rem 0;
+            height: 120px;
+            align-items: flex-end;
+        }
+
+        .bubble {
+            width: 60px;
+            height: 60px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.4rem;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--primary);
+        }
+
+        .bubble::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 20%;
+            width: 15px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: rotate(-30deg);
+        }
+
+        /* Sorotan pasangan yang sedang dibandingkan */
+        .comparing {
+            border-color: var(--secondary);
+            background: rgba(129, 140, 248, 0.2);
+            transform: translateY(-20px) scale(1.1);
+            box-shadow: 0 15px 30px rgba(129, 140, 248, 0.3);
+            z-index: 10;
+            color: var(--secondary);
+        }
+
+        .sorted {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: var(--success);
+            color: var(--success);
+            cursor: default;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 1rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-swap { background: var(--secondary); color: white; }
+        .btn-keep { background: #475569; color: white; }
+        .btn-reset { background: transparent; border: 1px solid #475569; color: #94a3b8; grid-column: span 2; margin-top: 10px; }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.2);
+        }
+
+        button:active { transform: translateY(0); }
+        button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .message-panel {
+            min-height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .correct-pop { animation: pop 0.4s ease-out; }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="game-container">
+    <h1>Bubble Mastery</h1>
+    <p class="description">Tentukan nasib gelembung: Tukar jika kiri > kanan, biarkan jika sudah urut!</p>
+
+    <div class="stats-bar">
+        <div class="lives">NYAWA: <span id="lives-count">❤️❤️❤️</span></div>
+        <div class="score">SKOR: <span id="score-count">0</span></div>
+    </div>
+
+    <div class="message-panel" id="msg">
+        Perhatikan dua gelembung yang terangkat!
+    </div>
+
+    <div class="array-display" id="array-container">
+        <!-- Gelembung -->
+    </div>
+
+    <div class="controls">
+        <button id="btn-swap" class="btn-swap" onclick="playerDecision(true)">Tukar</button>
+        <button id="btn-keep" class="btn-keep" onclick="playerDecision(false)">Biarkan</button>
+        <button class="btn-reset" onclick="initGame()">Ulangi Tantangan</button>
+    </div>
+</div>
+
+<script>
+    let numbers = [];
+    let i = 0; // Pass count
+    let j = 0; // Current comparison index
+    let score = 0;
+    let lives = 3;
+    let isGameOver = false;
+    const size = 6;
+
+    function initGame() {
+        numbers = [];
+        i = 0;
+        j = 0;
+        score = 0;
+        lives = 3;
+        isGameOver = false;
+        
+        while(numbers.length < size) {
+            let r = Math.floor(Math.random() * 80) + 10;
+            if(!numbers.includes(r)) numbers.push(r);
+        }
+        
+        updateUI();
+        render();
+    }
+
+    function render() {
+        const container = document.getElementById('array-container');
+        container.innerHTML = '';
+        
+        numbers.forEach((num, index) => {
+            const el = document.createElement('div');
+            el.className = 'bubble';
+            el.innerText = num;
+            
+            if (!isGameOver) {
+                if (index === j || index === j + 1) {
+                    el.classList.add('comparing');
+                }
+                if (index >= size - i) {
+                    el.classList.add('sorted');
+                }
+            } else {
+                el.classList.add('sorted');
+            }
+            
+            container.appendChild(el);
+        });
+    }
+
+    function playerDecision(wantsToSwap) {
+        if (isGameOver) return;
+
+        const left = numbers[j];
+        const right = numbers[j+1];
+        const shouldSwap = left > right;
+        const msgEl = document.getElementById('msg');
+        const container = document.getElementById('game-container');
+
+        if (wantsToSwap === shouldSwap) {
+            // JAWABAN BENAR
+            score += 10;
+            msgEl.innerHTML = `<span style="color: var(--success)">TEPAT!</span> ${left} ${shouldSwap ? '>' : '≤'} ${right}.`;
+            
+            if (shouldSwap) {
+                [numbers[j], numbers[j+1]] = [numbers[j+1], numbers[j]];
+            }
+            
+            moveToNextPair();
+        } else {
+            // JAWABAN SALAH
+            lives--;
+            msgEl.innerHTML = `<span style="color: var(--error)">SALAH!</span> Seharusnya ${shouldSwap ? 'ditukar' : 'dibiarkan'}.`;
+            container.classList.add('shake');
+            setTimeout(() => container.classList.remove('shake'), 400);
+
+            if (lives <= 0) {
+                gameOver(false);
+            } else {
+                // Tetap jalankan langkah yang benar meski pemain salah agar game berlanjut
+                if (shouldSwap) [numbers[j], numbers[j+1]] = [numbers[j+1], numbers[j]];
+                moveToNextPair();
+            }
+        }
+        
+        updateUI();
+        render();
+    }
+
+    function moveToNextPair() {
+        j++;
+        if (j >= size - i - 1) {
+            j = 0;
+            i++;
+        }
+
+        if (i >= size - 1) {
+            gameOver(true);
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('score-count').innerText = score;
+        document.getElementById('lives-count').innerText = "❤️".repeat(lives);
+    }
+
+    function gameOver(isWin) {
+        isGameOver = true;
+        const msgEl = document.getElementById('msg');
+        document.getElementById('btn-swap').disabled = true;
+        document.getElementById('btn-keep').disabled = true;
+
+        if (isWin) {
+            msgEl.innerHTML = `🎉 <b>MENANG!</b> Skor Akhir: ${score}. Semua gelembung sudah urut!`;
+        } else {
+            msgEl.innerHTML = `💀 <b>GAME OVER!</b> Kamu kehabisan nyawa. Ayo coba lagi!`;
+        }
+    }
+
+    initGame();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Guessing Game Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes scan {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+        .scanner {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, rgba(34, 211, 238, 0.2), transparent);
+            animation: scan 2s linear infinite;
+            pointer-events: none;
+        }
+        .range-bar-container {
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(255,255,255,0.05),
+                rgba(255,255,255,0.05) 1px,
+                transparent 1px,
+                transparent 10%
+            );
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 min-h-screen flex flex-col items-center p-4 font-sans text-slate-100">
+
+    <div class="max-w-5xl w-full bg-slate-900 rounded-[3rem] shadow-2xl p-6 md:p-12 border border-slate-800 relative overflow-hidden">
+        <!-- Elemen Dekoratif -->
+        <div class="absolute -top-24 -left-24 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-600/10 rounded-full blur-3xl"></div>
+        
+        <!-- Header -->
+        <div class="text-center mb-12 relative z-10">
+            <h1 class="text-5xl font-black tracking-tighter text-white mb-3 italic">
+                MEGA <span class="text-cyan-400 font-normal">GUESS</span> 1000
+            </h1>
+            <p class="text-slate-400 font-medium tracking-wide">Sistem menyembunyikan angka antara <span class="text-white font-bold">1 - 1000</span>.</p>
+        </div>
+
+        <!-- Panel Status -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 relative z-10">
+            <div class="bg-slate-800/40 backdrop-blur p-8 rounded-[2rem] border border-slate-700/50 text-center shadow-inner">
+                <span class="block text-[10px] uppercase font-black text-slate-500 mb-2 tracking-[0.2em]">Batas Bawah</span>
+                <span id="low-display" class="text-5xl font-black text-cyan-400">1</span>
+            </div>
+            
+            <div class="relative group scale-110">
+                <div class="absolute inset-0 bg-indigo-600 rounded-[2rem] blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <div id="chance-container" class="relative bg-indigo-600 p-8 rounded-[2rem] shadow-2xl text-center border border-indigo-400/30">
+                    <span class="block text-[10px] uppercase font-black text-indigo-100 mb-2 tracking-[0.2em]">Sisa Nyawa</span>
+                    <span id="attempts-display" class="text-5xl font-black text-white">10</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/40 backdrop-blur p-8 rounded-[2rem] border border-slate-700/50 text-center shadow-inner">
+                <span class="block text-[10px] uppercase font-black text-slate-500 mb-2 tracking-[0.2em]">Batas Atas</span>
+                <span id="high-display" class="text-5xl font-black text-rose-400">1000</span>
+            </div>
+        </div>
+
+        <!-- Visualisasi Progres Bar -->
+        <div class="mb-12">
+            <div class="flex justify-between mb-2 px-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                <span>Skala 1</span>
+                <span>Pencarian Aktif</span>
+                <span>Skala 1000</span>
+            </div>
+            <div class="relative h-16 bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden px-1 flex items-center range-bar-container">
+                <div id="range-bar" class="absolute h-10 bg-gradient-to-r from-cyan-500/20 via-indigo-500/40 to-rose-500/20 border border-indigo-500/50 rounded-2xl transition-all duration-1000 ease-in-out shadow-[0_0_20px_rgba(79,70,229,0.2)]" style="left: 0%; right: 0%;"></div>
+                <div class="scanner"></div>
+            </div>
+        </div>
+
+        <!-- Area Input -->
+        <div class="flex flex-col items-center gap-8 relative z-10">
+            <div class="relative">
+                <input type="number" id="guess-input" placeholder="---" 
+                    class="w-48 h-48 bg-slate-900 border-4 border-slate-800 rounded-[3rem] text-center text-6xl font-black text-white focus:outline-none focus:border-indigo-500 transition-all focus:ring-8 focus:ring-indigo-500/10 shadow-2xl">
+                <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white text-slate-950 text-xs font-black px-6 py-2 rounded-full uppercase tracking-tighter shadow-lg">Input Angka</div>
+            </div>
+
+            <div id="feedback-area" class="text-center h-16">
+                <p id="feedback-text" class="text-xl font-bold text-slate-400 leading-tight">Masukkan tebakan pertamamu...</p>
+            </div>
+
+            <button id="btn-guess" class="group relative px-16 py-5 bg-white text-slate-950 font-black rounded-2xl transition-all shadow-xl active:scale-95 uppercase tracking-widest overflow-hidden">
+                <span class="relative z-10">Kirim Analisis</span>
+                <div class="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </button>
+        </div>
+
+        <!-- Riwayat -->
+        <div class="mt-16 pt-8 border-t border-slate-800/50">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest">Log Logika Biner</h3>
+                <span id="log-count" class="text-[10px] text-slate-600 font-bold">0 Log Terdeteksi</span>
+            </div>
+            <div id="history-list" class="flex flex-wrap gap-3 max-h-32 overflow-y-auto pr-2 custom-scrollbar">
+                <!-- Chip riwayat muncul di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay Hasil -->
+    <div id="overlay" class="hidden fixed inset-0 bg-slate-950/98 backdrop-blur-2xl z-50 flex items-center justify-center p-6">
+        <div class="bg-slate-900 border border-slate-800 p-12 rounded-[4rem] max-w-lg w-full text-center shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+            <div id="result-icon" class="text-8xl mb-8">💎</div>
+            <h2 id="result-title" class="text-5xl font-black text-white mb-4 uppercase tracking-tighter">DATA DITEMUKAN</h2>
+            <p id="result-msg" class="text-slate-400 mb-10 text-xl font-medium">Angka rahasia berhasil diisolasi pada nilai 742.</p>
+            <button id="btn-restart" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-black rounded-3xl hover:from-indigo-500 hover:to-cyan-500 transition-all shadow-2xl uppercase tracking-widest active:scale-95">
+                Inisialisasi Ulang
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Konfigurasi Game Baru
+        const MAX_RANGE = 1000;
+        const INITIAL_CHANCES = 10;
+
+        let secretValue = 0;
+        let low = 1;
+        let high = MAX_RANGE;
+        let attempts = INITIAL_CHANCES;
+        let isGameOver = false;
+
+        const guessInput = document.getElementById('guess-input');
+        const lowDisplay = document.getElementById('low-display');
+        const highDisplay = document.getElementById('high-display');
+        const attemptsDisplay = document.getElementById('attempts-display');
+        const feedbackText = document.getElementById('feedback-text');
+        const rangeBar = document.getElementById('range-bar');
+        const historyList = document.getElementById('history-list');
+        const overlay = document.getElementById('overlay');
+        const btnGuess = document.getElementById('btn-guess');
+        const btnRestart = document.getElementById('btn-restart');
+        const chanceContainer = document.getElementById('chance-container');
+
+        function initGame() {
+            secretValue = Math.floor(Math.random() * MAX_RANGE) + 1;
+            low = 1;
+            high = MAX_RANGE;
+            attempts = INITIAL_CHANCES;
+            isGameOver = false;
+            
+            historyList.innerHTML = '';
+            guessInput.value = '';
+            overlay.classList.add('hidden');
+            document.getElementById('log-count').innerText = "0 Log Terdeteksi";
+            
+            updateUI();
+            
+            feedbackText.innerText = "Sistem telah mengacak angka antara 1 - 1000.";
+            feedbackText.className = "text-xl font-bold text-slate-400";
+        }
+
+        function updateUI() {
+            lowDisplay.innerText = low;
+            highDisplay.innerText = high;
+            attemptsDisplay.innerText = attempts;
+
+            // Update posisi bar progres (dalam persentase)
+            const leftOffset = ((low - 1) / MAX_RANGE) * 100;
+            const rightOffset = (1 - (high / MAX_RANGE)) * 100;
+            
+            rangeBar.style.left = `${leftOffset}%`;
+            rangeBar.style.right = `${rightOffset}%`;
+
+            // Efek visual nyawa kritis
+            if (attempts <= 3) {
+                chanceContainer.className = "relative bg-rose-600 p-8 rounded-[2rem] shadow-2xl text-center border border-rose-400/30 animate-pulse";
+            } else {
+                chanceContainer.className = "relative bg-indigo-600 p-8 rounded-[2rem] shadow-2xl text-center border border-indigo-400/30 transition-colors";
+            }
+        }
+
+        function makeGuess() {
+            if (isGameOver) return;
+            
+            const guess = parseInt(guessInput.value);
+            
+            if (isNaN(guess) || guess < 1 || guess > MAX_RANGE) {
+                feedbackText.innerText = `Error: Input harus 1 - ${MAX_RANGE}!`;
+                feedbackText.className = "text-xl font-bold text-rose-500 animate-bounce";
+                return;
+            }
+
+            if (guess < low || guess > high) {
+                feedbackText.innerText = `Peringatan: Angka di luar zona aktif (${low}-${high})`;
+                feedbackText.className = "text-xl font-bold text-amber-500";
+                return;
+            }
+
+            attempts--;
+            addHistory(guess);
+            document.getElementById('log-count').innerText = `${INITIAL_CHANCES - attempts} Log Terdeteksi`;
+            
+            if (guess === secretValue) {
+                showResult(true);
+            } else if (attempts <= 0) {
+                showResult(false);
+            } else {
+                if (guess < secretValue) {
+                    low = guess + 1;
+                    feedbackText.innerText = `TERLALU RENDAH! Target berada di atas ${guess}.`;
+                    feedbackText.className = "text-xl font-bold text-cyan-400";
+                } else {
+                    high = guess - 1;
+                    feedbackText.innerText = `TERLALU TINGGI! Target berada di bawah ${guess}.`;
+                    feedbackText.className = "text-xl font-bold text-rose-400";
+                }
+            }
+            
+            updateUI();
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        function addHistory(val) {
+            const chip = document.createElement('div');
+            let colorClass = "bg-slate-800 border-slate-700 text-slate-300";
+            
+            if (val === secretValue) colorClass = "bg-emerald-600 text-white border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]";
+            else if (val < secretValue) colorClass = "bg-cyan-900/50 text-cyan-400 border-cyan-700";
+            else colorClass = "bg-rose-900/50 text-rose-400 border-rose-700";
+
+            chip.className = `${colorClass} border px-4 py-1.5 rounded-xl text-xs font-black transition-all hover:scale-105`;
+            chip.innerText = `#${INITIAL_CHANCES - attempts}: ${val}`;
+            historyList.prepend(chip); // Yang terbaru di depan
+        }
+
+        function showResult(win) {
+            isGameOver = true;
+            const icon = document.getElementById('result-icon');
+            const title = document.getElementById('result-title');
+            const msg = document.getElementById('result-msg');
+
+            if (win) {
+                icon.innerText = "💎";
+                title.innerText = "DATA DIISOLASI";
+                title.className = "text-5xl font-black text-emerald-400 mb-4 uppercase tracking-tighter";
+                msg.innerHTML = `Analisis sukses! Angka rahasia <span class="text-white font-bold">${secretValue}</span> ditemukan dalam ${INITIAL_CHANCES - attempts} langkah.`;
+            } else {
+                icon.innerText = "⚠️";
+                title.innerText = "SISTEM GAGAL";
+                title.className = "text-5xl font-black text-rose-500 mb-4 uppercase tracking-tighter";
+                msg.innerHTML = `Batas percobaan tercapai. Angka rahasia adalah <span class="text-white font-bold">${secretValue}</span>.`;
+            }
+            
+            setTimeout(() => overlay.classList.remove('hidden'), 500);
+        }
+
+        btnGuess.addEventListener('click', makeGuess);
+        guessInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') makeGuess();
+        });
+        btnRestart.addEventListener('click', initGame);
+
+        // Inisialisasi awal
+        initGame();
+    </script>
+</body>
+</html>
